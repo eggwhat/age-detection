@@ -1,4 +1,4 @@
-# Application that detects humans in pictures and predicts their age
+# Application that detects humans from in-built camera and predicts their age
 Introduction to Machine Learning project
 
 The main use scenario of the ready solution is as follows: user launches the application. The application collects live video from the in-built camera. On the captured video the application marks a bounding box for each person’s face and predicts their age. The program terminates when the user closes the window. Recognition is in (close to) real time.
