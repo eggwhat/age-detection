@@ -1,2 +1,2 @@
-# App for face recognition and age detection
+# Application that detects humans in pictures and predicts their age
 Introduction to Machine Learning project
