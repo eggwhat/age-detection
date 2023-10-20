@@ -1,0 +1,1 @@
+DATA_DIR = '/train/data'
