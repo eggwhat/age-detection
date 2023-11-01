@@ -12,11 +12,16 @@ use an external one instead and change `DATA_DIR` in `consts.py`.
 │   │   ├── **
 │   │   │  ├── **.jpg
 │   │   ├── imdb.mat
+│   ├── wiki_crop
+│   │   ├── **
+│   │   │  ├── **.jpg
+│   │   ├── wiki.mat
 ```
 
 
 Source:
 1. imdb_crop: https://data.vision.ee.ethz.ch/cvl/rrothe/imdb-wiki/static/imdb_crop.tar
+2. wiki_crop: https://data.vision.ee.ethz.ch/cvl/rrothe/imdb-wiki/static/wiki_crop.tar
 
 @article{Rothe-IJCV-2018,
   author = {Rasmus Rothe and Radu Timofte and Luc Van Gool},
