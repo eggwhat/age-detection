@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, WebSocket
 from fastapi.responses import StreamingResponse, JSONResponse
 from core.face_detection import detect_faces
 from core.video_processing import generate_video, process_video
@@ -11,6 +11,7 @@ import os
 import cv2
 import numpy as np
 import io
+import base64
 
 app = FastAPI()
 
@@ -35,27 +36,17 @@ async def get_models():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/detect-age/single")
-async def detect_age_single(file: UploadFile = File(...)):
-    if not file.content_type.startswith("image/"):
-        raise HTTPException(status_code=400, detail="Invalid file format. Please upload an image.")
-    try:
-        content = await file.read()
-        image_array = cv2.imdecode(np.frombuffer(content, np.uint8), -1)
-
-        detected_faces = detect_faces(image_array)
-        if not detected_faces['faces'].any():
-            raise HTTPException(status_code=400, detail="No faces detected in the image.")
-
-        image_pil = Image.fromarray(cv2.cvtColor(image_array, cv2.COLOR_BGR2RGB))
-
-        output_image = io.BytesIO()
-        image_pil.save(output_image, format="JPEG")
-
-        output_image.seek(0)
-        return StreamingResponse(io.BytesIO(output_image.read()), media_type="image/jpeg")
-    except Exception as e:
-        return JSONResponse(content={"detail": f"An error occurred: {str(e)}"}, status_code=500)
+@app.websocket("/detect-age/ws")
+async def detect_age_single(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        decoded_data = base64.b64decode(data)
+        frame = cv2.imdecode(np.frombuffer(decoded_data, dtype=np.uint8), 1)
+        detect_faces(frame)
+        _, encoded_frame = cv2.imencode('.jpg', frame)
+        image = base64.b64encode(encoded_frame.tobytes()).decode('utf-8')
+        await websocket.send_text(image)
 
 
 @app.post("/detect-age/multiple")
