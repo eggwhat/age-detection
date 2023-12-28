@@ -10,6 +10,7 @@ def detect_faces(img):
     faces = face_classifier.detectMultiScale(
         gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(40, 40)
     )
+
     for (x, y, w, h) in faces:
         cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 4)
     return {
