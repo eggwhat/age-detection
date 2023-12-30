@@ -1,0 +1,18 @@
+.video-container {
+  text-align: center;
+  margin: 20px;
+}
+
+video {
+  border: 1px solid black;
+}
+
+button {
+  margin-top: 10px;
+}
+
+p {
+  margin-top: 10px;
+  font-size: 1.2em;
+  color: blue;
+}

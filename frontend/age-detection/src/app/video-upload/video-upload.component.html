@@ -1,0 +1,14 @@
+<div class="container">
+  <h1>Age Prediction App</h1>
+  <div class="camera">
+    <video #video autoplay></video>
+    <canvas #canvas hidden></canvas>
+    <button (click)="captureImage()">Capture Image</button>
+  </div>
+  <div class="result" *ngIf="agePrediction">
+    <h2>Predicted Age:</h2>
+    <div class="face-box">
+      <div class="age-text">{{ agePrediction }} years</div>
+    </div>
+  </div>
+</div>
