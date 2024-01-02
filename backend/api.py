@@ -12,8 +12,10 @@ import cv2
 import numpy as np
 import io
 import base64
+from core.models.resnet18_7с import Resnet18_7C
 
 app = FastAPI()
+Resnet18_7CModel = Resnet18_7C()
 
 
 @app.get("/")
@@ -43,7 +45,7 @@ async def detect_age_single(websocket: WebSocket):
         data = await websocket.receive_text()
         decoded_data = base64.b64decode(data)
         frame = cv2.imdecode(np.frombuffer(decoded_data, dtype=np.uint8), 1)
-        detect_faces(frame)
+        detect_faces(frame, Resnet18_7CModel)
         _, encoded_frame = cv2.imencode('.jpg', frame)
         image = base64.b64encode(encoded_frame.tobytes()).decode('utf-8')
         await websocket.send_text(image)

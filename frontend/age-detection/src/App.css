@@ -51,6 +51,7 @@ main {
   background-color: white;
   border-radius: 8px;
   margin: auto;
+  width: 45%;
 }
 
 footer {
@@ -64,4 +65,9 @@ footer {
 footer p {
   margin: 0;
   font-weight: 300;
+}
+
+.video-container{
+  display:flex;
+  flex-direction: row;
 }

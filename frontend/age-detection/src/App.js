@@ -30,7 +30,7 @@ function App() {
         if (!isPredictionReceived) {
             const interval = setInterval(() => {
                 captureAndSendFrame();
-            }, 1000);
+            }, 1000 / 10);
 
             return () => clearInterval(interval);
         }
@@ -54,7 +54,8 @@ function App() {
                 <p>Our advanced AI will guess your age from your webcam feed. Give it a try!</p>
             </header>
             <main>
-                {/*{!isPredictionReceived ? (*/}
+                <div className="video-container">
+                    {/*{!isPredictionReceived ? (*/}
                     <div className="webcam-feed">
                         <Webcam
                             audio={false}
@@ -63,11 +64,13 @@ function App() {
                             videoConstraints={{ width: 640, height: 480 }}
                         />
                     </div>
-                {/*) : (*/}
-                <div className="result-display">
-                    {processedFrame && <img src={processedFrame} alt="Processed Frame" />}
+                    {/*) : (*/}
+                    <div className="result-display">
+                        {processedFrame && <img src={processedFrame} alt="Processed Frame" />}
+                    </div>
+                        {/*)}*/}
                 </div>
-                    {/*)}*/}
+                
             </main>
             <footer>
                 <p>&copy; 2024 Age Detection App</p>
