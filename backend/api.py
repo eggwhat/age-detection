@@ -15,7 +15,7 @@ import base64
 from core.models.resnet18_7с import Resnet18_7C
 
 app = FastAPI()
-Resnet18_7CModel = Resnet18_7C()
+Resnet18_7CModel = Resnet18_7C() # init trained model
 
 
 @app.get("/")
@@ -61,7 +61,7 @@ def detect_age_multiple(files: List[UploadFile] = File(...)):
             content = file.file.read()
             image_array = cv2.imdecode(np.frombuffer(content, np.uint8), -1)
 
-            detected_faces = detect_faces(image_array)
+            detected_faces = detect_faces(image_array, Resnet18_7CModel)
             if not detected_faces['faces'].any():
                 raise HTTPException(status_code=400, detail="No faces detected in the image.")
 
@@ -94,7 +94,7 @@ async def detect_age_video(file: UploadFile = File(...)):
         with open(file_path, "wb") as video_file:
             shutil.copyfileobj(file.file, video_file)
 
-        frames, frame_rate = process_video(file_path, detect_faces)
+        frames, frame_rate = process_video(file_path, detect_faces, Resnet18_7CModel)
 
         video_bytes = generate_video(frames, temp_dir, frame_rate)
         shutil.rmtree(temp_dir)
