@@ -20,7 +20,7 @@ def generate_video(frames, temp_dir, frame_rate):
         return output_file.read()
 
 
-def process_video(file_path, detect_faces):
+def process_video(file_path, detect_faces, model):
     frames = []
     video = cv2.VideoCapture(file_path)
     frame_rate = int(video.get(cv2.CAP_PROP_FPS))
@@ -30,7 +30,7 @@ def process_video(file_path, detect_faces):
         if not ret:
             break
 
-        detect_faces(frame)
+        detect_faces(frame, model)
         frames.append(frame)
 
     video.release()
