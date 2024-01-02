@@ -71,3 +71,18 @@ footer p {
   display:flex;
   flex-direction: row;
 }
+
+.upload-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #4a69bd;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.upload-button:hover {
+    background-color: #3a57a5;
+}

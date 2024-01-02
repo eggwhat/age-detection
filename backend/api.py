@@ -15,7 +15,7 @@ import base64
 from core.models.resnet18_7с import Resnet18_7C
 
 app = FastAPI()
-Resnet18_7CModel = Resnet18_7C() # init trained model
+Resnet18_7CModel = Resnet18_7C()  # init trained model
 
 
 @app.get("/")
