@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
+import Logo from './assets/logo.svg';
 import './App.css';
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
     return (
         <div className="container">
             <header>
+                <img src={Logo} alt="Age Detection App Logo" className="logo" />
                 <h1>Discover Your Age</h1>
                 <p>Our advanced AI will guess your age from your webcam feed. Give it a try!</p>
             </header>
