@@ -6,6 +6,7 @@ function App() {
     const webcamRef = useRef(null);
     const [ws, setWs] = useState(null);
     const [processedFrame, setProcessedFrame] = useState(null);
+    const [isPredictionReceived, setIsPredictionReceived] = useState(false);
 
     useEffect(() => {
         const websocket = new WebSocket('ws://127.0.0.1:8000/detect-age/ws');
@@ -14,6 +15,7 @@ function App() {
         websocket.onopen = () => console.log('WebSocket Connected');
         websocket.onmessage = (event) => {
             setProcessedFrame(`data:image/jpeg;base64,${event.data}`);
+            setIsPredictionReceived(true);
         };
         websocket.onclose = () => console.log('WebSocket Disconnected');
         websocket.onerror = error => console.log('WebSocket Error: ', error);
@@ -24,17 +26,22 @@ function App() {
     }, []);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            captureAndSendFrame();
-        }, 1000);
+        if (!isPredictionReceived) {
+            const interval = setInterval(() => {
+                captureAndSendFrame();
+            }, 1000);
 
-        return () => clearInterval(interval);
+            return () => clearInterval(interval);
+        }
     }, [ws]);
 
     const captureAndSendFrame = () => {
         if (webcamRef.current && ws?.readyState === WebSocket.OPEN) {
             const imageSrc = webcamRef.current.getScreenshot();
-            ws.send(imageSrc.split(',')[1]);
+
+            if (imageSrc) {
+                ws.send(imageSrc.split(',')[1]); // Send only the base64 part of the data URL
+            }
         }
     };
 
@@ -45,17 +52,20 @@ function App() {
                 <p>Our advanced AI will guess your age from your webcam feed. Give it a try!</p>
             </header>
             <main>
-                <div className="webcam-feed">
-                    <Webcam
-                        audio={false}
-                        ref={webcamRef}
-                        screenshotFormat="image/jpeg"
-                        videoConstraints={{ width: 640, height: 480 }}
-                    />
-                </div>
+                {/*{!isPredictionReceived ? (*/}
+                    <div className="webcam-feed">
+                        <Webcam
+                            audio={false}
+                            ref={webcamRef}
+                            screenshotFormat="image/jpeg"
+                            videoConstraints={{ width: 640, height: 480 }}
+                        />
+                    </div>
+                {/*) : (*/}
                 <div className="result-display">
                     {processedFrame && <img src={processedFrame} alt="Processed Frame" />}
                 </div>
+                    {/*)}*/}
             </main>
             <footer>
                 <p>&copy; 2024 Age Detection App</p>
@@ -65,3 +75,4 @@ function App() {
 }
 
 export default App;
+
