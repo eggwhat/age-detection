@@ -53,7 +53,9 @@ function App() {
         const file = e.target.files[0];
         if (file) {
             const formData = new FormData();
-            formData.append('file', file);
+            for (const fileData of e.target.files) {
+                formData.append('files', fileData);
+            }
 
             const response = await fetch('http://127.0.0.1:8000/detect-age/multiple', {
                 method: 'POST',

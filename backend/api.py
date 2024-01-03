@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, WebSocket
 from fastapi.responses import StreamingResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from core.face_detection import detect_faces
 from core.video_processing import generate_video, process_video
 from PIL import Image
@@ -15,6 +16,17 @@ import base64
 from core.models.resnet18_7с import Resnet18_7C
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 Resnet18_7CModel = Resnet18_7C()  # init trained model
 
 
@@ -62,8 +74,8 @@ def detect_age_multiple(files: List[UploadFile] = File(...)):
             image_array = cv2.imdecode(np.frombuffer(content, np.uint8), -1)
 
             detected_faces = detect_faces(image_array, Resnet18_7CModel)
-            if not detected_faces['faces'].any():
-                raise HTTPException(status_code=400, detail="No faces detected in the image.")
+            # if not detected_faces['faces'].any():
+            #     raise HTTPException(status_code=400, detail="No faces detected in the image.")
 
             image_pil = Image.fromarray(cv2.cvtColor(image_array, cv2.COLOR_BGR2RGB))
             output_image = io.BytesIO()
@@ -75,6 +87,7 @@ def detect_age_multiple(files: List[UploadFile] = File(...)):
         with zipfile.ZipFile(zip_file, 'w') as zipf:
             for image in images:
                 zipf.writestr(image["name"], image["content"])
+
 
         zip_file.seek(0)
         return StreamingResponse(iter([zip_file.getvalue()]), media_type="application/x-zip-compressed",
@@ -97,6 +110,7 @@ async def detect_age_video(file: UploadFile = File(...)):
         frames, frame_rate = process_video(file_path, detect_faces, Resnet18_7CModel)
 
         video_bytes = generate_video(frames, temp_dir, frame_rate)
+
         shutil.rmtree(temp_dir)
 
         return StreamingResponse(io.BytesIO(video_bytes), media_type="video/mp4")
