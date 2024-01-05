@@ -109,7 +109,7 @@ function App() {
 
         const formData = new FormData();
         selectedFiles.forEach(file => {
-            formData.append('files', file);
+            formData.append('file', file);
         });
 
         try {
