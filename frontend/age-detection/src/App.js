@@ -102,7 +102,7 @@ function App() {
 
         const formData = new FormData();
         formData.append('file', file);
-
+        
         try {
             const response = await fetch('http://127.0.0.1:8000/detect-age/video', {
                 method: 'POST',

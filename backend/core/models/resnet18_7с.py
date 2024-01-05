@@ -5,7 +5,7 @@ from torchvision import transforms
 
 class Resnet18_7C:
   def __init__(self):
-    model_path = 'assets/models/resnet18_7classes_0.6.pt'
+    model_path = 'assets/models/resnet18_7classes.pt'
     self.classes = {
         0: '0 - 2',
         1: '3 - 9',
