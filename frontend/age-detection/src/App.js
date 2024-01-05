@@ -49,21 +49,22 @@ function App() {
     const [processedImageData, setProcessedImageData] = useState(null);
     const [processedVideoData, setProcessedVideoData] = useState(null);
 
-   const [selectedFiles, setSelectedFiles] = useState([]);
+    const [selectedFiles, setSelectedFiles] = useState([]);
 
     const handleFileSelect = (event) => {
-        setSelectedFiles([...event.target.files]);
-        handleImageUpload();
+        const files = [...event.target.files];
+        setSelectedFiles(files);
+        handleImageUpload(files);
     };
 
-    const handleImageUpload = async () => {
-        if (selectedFiles.length === 0) {
+    const handleImageUpload = async (files) => {
+        if (files.length === 0) {
             alert('Please select one or more files.');
             return;
         }
 
         const formData = new FormData();
-        selectedFiles.forEach(file => {
+        files.forEach(file => {
             formData.append('files', file);
         });
 
@@ -93,25 +94,15 @@ function App() {
         }
     };
 
-    const handleVideoFileSelect = (event) => {
-        const videos = Array.from(event.target.files).filter(file =>
-            file.type.startsWith('video/')
-        );
-        setSelectedFiles(videos);
-        handleVideoUpload();
-    };
-
-    const handleVideoUpload = async () => {
-        if (selectedFiles.length === 0) {
-            alert('Please select one or more video files.');
+    const handleVideoUpload = async (file) => {
+        if (!file) {
+            alert('Please select a video file.');
             return;
         }
 
         const formData = new FormData();
-        selectedFiles.forEach(file => {
-            formData.append('file', file);
-        });
-
+        formData.append('file', file);
+        
         try {
             const response = await fetch('http://127.0.0.1:8000/detect-age/video', {
                 method: 'POST',
@@ -126,7 +117,7 @@ function App() {
             const downloadUrl = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = downloadUrl;
-            link.download = 'videos.zip';
+            link.download = 'processed_video.mp4';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -165,7 +156,8 @@ function App() {
                 <input type="file" accept="image/*" onChange={handleFileSelect} hidden id="imageUpload"/>
                 <label htmlFor="imageUpload" className="upload-button">Upload Image</label>
 
-                <input type="file" accept="video/*" onChange={handleVideoFileSelect} hidden id="videoUpload"/>
+                <input type="file" accept="video/*" onChange={(e) => handleVideoUpload(e.target.files[0])} hidden
+                       id="videoUpload"/>
                 <label htmlFor="videoUpload" className="upload-button">Upload Video</label>
                 {processedImageData && (
                     <img src={`data:image/jpeg;base64,${processedImageData}`} alt="Processed Image"/>
