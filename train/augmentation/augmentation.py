@@ -73,7 +73,8 @@ class ImageAugmentor:
                             cv2.imwrite(save_path, cv2.cvtColor(augmented_image, cv2.COLOR_RGB2BGR))
 
 
-source_dir = 'wiki_crop_big'
-target_dir = './data_augmented'
-augmentor = ImageAugmentor(source_dir, target_dir)
-augmentor.process_images()
+if __name__ == "__main__":
+    source_dir = 'wiki_crop'
+    target_dir = './data_augmented'
+    augmentor = ImageAugmentor(source_dir, target_dir)
+    augmentor.process_images()
