@@ -6,8 +6,7 @@ from keras.preprocessing.image import ImageDataGenerator
 
 
 class ImageAugmentor:
-    def __init__(self, source_directory, target_directory, metadata_path, metadata_columns):
-        self.source_directory = source_directory
+    def __init__(self, target_directory, metadata_path, metadata_columns):
         self.target_directory = target_directory
         self.metadata_path = metadata_path
         self.metadata_columns = metadata_columns
@@ -25,9 +24,13 @@ class ImageAugmentor:
         for age in range(0, 11):
             self.num_images_per_age[age] = 9
         for age in range(50, 121):
-            if age < 65:
+            if age < 57:
+                self.num_images_per_age[age] = 1
+            elif age < 63:
+                self.num_images_per_age[age] = 2
+            elif age < 73:
                 self.num_images_per_age[age] = 3
-            elif age < 80:
+            elif age < 82:
                 self.num_images_per_age[age] = 5
             else:
                 self.num_images_per_age[age] = 9
@@ -82,10 +85,9 @@ class ImageAugmentor:
 
 
 if __name__ == "__main__":
-    source_dir = os.path.join('..', 'data', 'wiki_crop')  # change this to your dataset directory
-    target_dir = os.path.join('..', 'data', 'augmented', 'wiki_crop')  # change this to your output directory
+    target_dir = os.path.join('..', 'data', 'augmented')  # change this to your output directory
     metadata_dir = os.path.join('..', 'data')  # change this to your metadata directory
-    m_path = metadata_dir + '/metadata.csv'
+    m_path = metadata_dir + '/metadata-clean.csv'  # change this to your metadata file
     m_columns = ['age', 'gender', 'path', 'face_score1']
-    augmentor = ImageAugmentor(source_dir, target_dir, m_path, m_columns)
+    augmentor = ImageAugmentor(target_dir, m_path, m_columns)
     augmentor.process_images()
