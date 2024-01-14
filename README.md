@@ -1,17 +1,69 @@
-# Application that detects humans from in-built camera and predicts their age
-Introduction to Machine Learning project
+# Age Detection App User Manual
 
-<h2>Overview:</h2>
-The main use scenario of the ready solution is as follows: user launches the application. The application collects live video from the in-built camera. On the captured video the application marks a bounding box for each person’s face and predicts their age. The program terminates when the user closes the window. Recognition is in (close to) real time.
+## Version 1.0
 
-<h2>Goals:</h2>
-<ul>
-  <li>It is ok to prepare several variants of the model and let the user decide which one to launch. In such a case, selection must be done via some graphical components in the GUI or loaded to a clearly named folder. Console arguments cannot be the way of selecting the model or providing any parameters to the program. All such assumptions must be described in the documentation.</li>
-  <li>Model quality must be verified using standard measures such as precision, recall, F1 score, sensitivity, accuracy (classification of humans) and errors such as RMSE or MAPE (age prediction). There must be evidence of changes/versions that the group worked on to improve the model.</li>
-  <li>Optionally, you may use LIME to perform post-training explanations.</li>
-  <li>Age detection can be turned to classification of an age group.</li>
-  <li>Please note that there must be a clear manner of communicating errors to the user
-(for example, there must be a clear error message that some resource X (file, model, ..) that was supposed to be in location Y (file path) is not there. You cannot reuse the same error message for each exception.</li>
-  <li>It is ok to assume that the project directory contains some folders with specific names. All such assumptions must be described in the documentation.</li>
-</ul>
+## Table of Contents
+1. [Introduction](#introduction)
+2. [System Requirements](#system-requirements)
+3. [Installation Guide](#installation-guide)
+4. [Getting Started](#getting-started)
+5. [Uploading an Image](#uploading-an-image)
+6. [Uploading a Video](#uploading-a-video)
+7. [Troubleshooting](#troubleshooting)
+8. [Contact Information](#contact-information)
 
+---
+
+### Introduction
+Welcome to the Age Detection App! Our advanced AI technology estimates the age of individuals from photos and videos. This manual will guide you through the process of installing and using the application.
+
+### System Requirements
+- Operating System: Windows 10, MacOS 10.14, or any modern Linux distribution
+- Browser: Latest versions of Chrome, Firefox, or Safari
+- Webcam: Required if using live feed features
+- Python 3.8 or higher
+- Node.js 12 or higher
+
+### Installation Guide
+
+
+To ensure proper installation of the Age Detection App, follow these steps:
+
+1. **Clone the Repository**: https://github.com/grioool/human-age-detection
+2. **Set Up Python Environment**:
+   - Ensure Python 3.8+ is installed.
+   - Set up a virtual environment: `python -m venv venv`
+   - Activate the virtual environment: `source venv/bin/activate` (Linux/Mac) or `venv\Scripts\activate` (Windows)
+   - Install the required Python libraries: `pip install -r requirements.txt`
+3. **Set Up React Environment**:
+   - Ensure Node.js 12+ is installed.
+   - Install dependencies: `npm install`
+   - App will be hosted on 
+
+### Getting Started
+1. **Launch the App**: Open the installed application or navigate to the web address: Local: http://localhost:3000 On Your Network:  http://192.168.1.91:3000.
+2. **Grant Permissions**: Allow the application to access your webcam if prompted.
+
+### Uploading an Image
+1. **Navigate to the Image Section**: Click on the ‘Upload Image’ button.
+2. **Choose a Directory**: Click the button and select directory. Ensure the images in directory are clear and the face(s) is/are visible.
+3. **Upload and Analyze**: Once the directory is selected, the app will automatically upload and analyze the images to estimate the age of the individuals present and save them to archive
+
+### Uploading a Video
+1. **Navigate to the Video Section**: Click on the 'Upload Video' button if you wish to use a pre-recorded video.
+2. **Choose a Video File**: A dialog will appear for you to select a video file from your computer.
+3. **Upload and Analyze**: After selecting the file, the application will process, save the video and display the estimated age for the individuals in the video.
+
+### Using the Webcam 
+1. **Webcam Feed**: You may be prompted to enable your webcam.
+2. **Real-Time Analysis**: The app will provide real-time age estimations based on the webcam feed.
+
+### Troubleshooting
+- **Webcam Not Detected**: Ensure your webcam drivers are up to date and that the webcam is not being used by another application.
+- **Upload Failures**: Check your internet connection and ensure the file size does not exceed the maximum limit.
+- **Inaccurate Age Estimation**: Ensure the image or video is clear and the subject's face is not obstructed.
+
+### Contact Information
+For any technical support or queries, please reach out to:
+
+- **Support Email**: olga.a.grigorieva@gmail.com
