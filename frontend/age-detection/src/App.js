@@ -30,7 +30,7 @@ function App() {
         if (!isPredictionReceived) {
             const interval = setInterval(() => {
                 captureAndSendFrame();
-            }, 1000 / 10);
+            }, 1000 / 5);
 
             return () => clearInterval(interval);
         }
@@ -58,41 +58,43 @@ function App() {
     };
 
     const handleImageUpload = async (files) => {
-        if (files.length === 0) {
-            alert('Please select one or more files.');
-            return;
-        }
 
-        const formData = new FormData();
-        files.forEach(file => {
-            formData.append('files', file);
+    if (files.length > 40) {
+        alert('Please select a directory with fewer than 40 files.');
+        return;
+    }
+
+    const formData = new FormData();
+    files.forEach(file => {
+        formData.append('files', file);
+    });
+
+    try {
+        const response = await fetch('http://127.0.0.1:8000/detect-age/multiple', {
+            method: 'POST',
+            body: formData,
         });
 
-        try {
-            const response = await fetch('http://127.0.0.1:8000/detect-age/multiple', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (!response.ok) {
-                throw new Error('Server responded with an error.');
-            }
-
-            const blob = await response.blob();
-            const downloadUrl = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = downloadUrl;
-            link.download = 'images.zip';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            window.URL.revokeObjectURL(downloadUrl);
-
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Upload failed. Please try again.');
+        if (!response.ok) {
+            throw new Error('Server responded with an error.');
         }
-    };
+
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = 'images.zip';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(downloadUrl);
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Upload failed. Please try again.');
+    }
+};
+
 
     const handleVideoUpload = async (file) => {
         if (!file) {
@@ -102,7 +104,7 @@ function App() {
 
         const formData = new FormData();
         formData.append('file', file);
-        
+
         try {
             const response = await fetch('http://127.0.0.1:8000/detect-age/video', {
                 method: 'POST',
@@ -153,8 +155,17 @@ function App() {
                     </div>
                     {/*)}*/}
                 </div>
-                <input type="file" accept="image/*" onChange={handleFileSelect} hidden id="imageUpload"/>
-                <label htmlFor="imageUpload" className="upload-button">Upload Image</label>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileSelect}
+                    multiple
+                    directory=""
+                    webkitdirectory=""
+                    hidden
+                    id="imageUploadDirectory"
+                />
+                <label htmlFor="imageUploadDirectory" className="upload-button">Upload Image Directory</label>
 
                 <input type="file" accept="video/*" onChange={(e) => handleVideoUpload(e.target.files[0])} hidden
                        id="videoUpload"/>
