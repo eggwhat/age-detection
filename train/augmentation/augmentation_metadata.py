@@ -55,6 +55,7 @@ class ImageAugmentor:
         }
 
     def process_images(self):
+        print(f"Start augmentation. metadata: {self.metadata_path}. Target: {self.target_directory}")
         metadata = pd.read_csv(self.metadata_path)
         augmented_metadata = {col: [] for col in self.metadata_columns}
         for index, row in metadata.iterrows():
@@ -63,17 +64,22 @@ class ImageAugmentor:
             _, filename = os.path.split(img_path)
             name, _ = os.path.splitext(filename)
             if age < 10 or age > 50:
+                print(f"Image to be augmented. Age: {age}")
                 image = cv2.imread(img_path)
                 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
                 if self.detect_faces(image):
+                    print(f"Faces detected.")
                     generator = self.datagen.flow(np.array([image]), batch_size=8)
                     for i in range(self.num_images_per_age[age]):
                         output_path = os.path.abspath(os.path.join(self.target_directory, f'aug_{i}_{name}.jpg'))
                         if os.path.exists(output_path):
+                            print(f"WARN: image with such path already exists: {output_path}")
                             continue
+                        print(f"Saving image to {output_path}")
                         augmented_image = generator.next()[0].astype('uint8')
                         cv2.imwrite(output_path, cv2.cvtColor(augmented_image, cv2.COLOR_BGR2RGB))
+                        print(f"SAVED. {output_path}")
                         augmented_metadata['age'].append(row['age'])
                         augmented_metadata['gender'].append(row['gender'])
                         augmented_metadata['path'].append(output_path)
@@ -81,11 +87,16 @@ class ImageAugmentor:
 
         augmented_metadata_df = pd.DataFrame(augmented_metadata)
         updated_metadata = pd.concat([metadata, augmented_metadata_df], ignore_index=True)
+        print(f"Saving augmented metadata. Number of rows: {len(updated_metadata)}")
         updated_metadata.to_csv(self.metadata_path, index=False)
 
 
 if __name__ == "__main__":
-    target_dir = os.path.join('..', 'data', 'augmented')  # change this to your output directory
+    target_dir = os.path.join('', 'data', 'augmented')  # change this to your output directory
+    isExist = os.path.exists(target_dir)
+    if not isExist:
+        os.makedirs(target_dir)
+        print("Augmented dir is created!")
     metadata_dir = os.path.join('..', 'data')  # change this to your metadata directory
     m_path = metadata_dir + '/metadata-clean.csv'  # change this to your metadata file
     m_columns = ['age', 'gender', 'path', 'face_score1']
