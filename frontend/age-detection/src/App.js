@@ -101,11 +101,17 @@ function App() {
     };
 
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [isWebcamActive, setIsWebcamActive] = useState(true);
+
     const handleVideoUpload = async (file) => {
         if (!file) {
             alert('Please select a video file.');
             return;
         }
+
+        setIsLoading(true);
+        setIsWebcamActive(false);
 
         const formData = new FormData();
         formData.append('file', file);
@@ -133,8 +139,17 @@ function App() {
         } catch (error) {
             console.error('Error:', error);
             alert('Upload failed. Please try again.');
+        } finally {
+            setIsLoading(false);
+            setIsWebcamActive(true); // Reactivate webcam when video upload ends
         }
     };
+
+    const Loader = () => (
+        <div className="spinner-container">
+            <div className="spinner"></div>
+        </div>
+    );
 
     return (
         <div className="container">
@@ -175,17 +190,23 @@ function App() {
                 )}
 
                 <div className="video-container">
-                    <div className="webcam-feed">
-                        <Webcam
-                            audio={false}
-                            ref={webcamRef}
-                            screenshotFormat="image/jpeg"
-                            videoConstraints={{width: 640, height: 480}}
-                        />
-                    </div>
-                    <div className="result-display">
-                        {processedFrame && <img src={processedFrame} alt="Processed Frame"/>}
-                    </div>
+                    {isWebcamActive && (
+                        <div className="webcam-feed">
+                            <Webcam
+                                audio={false}
+                                ref={webcamRef}
+                                screenshotFormat="image/jpeg"
+                                videoConstraints={{width: 640, height: 480}}
+                            />
+                        </div>
+                    )}
+                    {!isWebcamActive && isLoading && <Loader/>}
+                    {isWebcamActive && (
+                        <div className="result-display">
+                            {processedFrame && <img src={processedFrame} alt="Processed Frame"/>}
+                        </div>
+                    )}
+                    {!isWebcamActive && isLoading && <Loader/>}
                 </div>
             </main>
             <footer>
