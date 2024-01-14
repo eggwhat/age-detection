@@ -29,7 +29,7 @@ Welcome to the Age Detection App! Our advanced AI technology estimates the age o
 
 To ensure proper installation of the Age Detection App, follow these steps:
 
-1. **Clone the Repository**: Obtain the code from your version control system.
+1. **Clone the Repository**: https://github.com/grioool/human-age-detection
 2. **Set Up Python Environment**:
    - Ensure Python 3.8+ is installed.
    - Set up a virtual environment: `python -m venv venv`
