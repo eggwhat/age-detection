@@ -21,3 +21,23 @@ def detect_faces(img, model):
     return {
         'faces': faces
     }
+
+
+def detect_faces_video(img, model):
+    gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    face_classifier = cv2.CascadeClassifier(
+        cv2.data.haarcascades + "haarcascade_frontalface_default.xml"  # pretrained model
+    )
+    faces = face_classifier.detectMultiScale(
+        gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(40, 40)
+    )
+
+    predictions = []
+    for (x, y, w, h) in faces:
+        face_img = img[y:y+h, x:x+w]
+        predictions.append(model.predict(Image.fromarray(face_img).convert('RGB')))
+    return {
+        'faces': faces,
+        'predictions': predictions
+    }

@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, WebSocket
 from fastapi.responses import StreamingResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from core.face_detection import detect_faces
+from core.face_detection import detect_faces, detect_faces_video
 from core.video_processing import generate_video, process_video
 from PIL import Image
 from typing import List
@@ -107,7 +107,7 @@ async def detect_age_video(file: UploadFile = File(...)):
         with open(file_path, "wb") as video_file:
             shutil.copyfileobj(file.file, video_file)
 
-        frames, frame_rate = process_video(file_path, detect_faces, Resnet18_7CModel)
+        frames, frame_rate = process_video(file_path, detect_faces_video, Resnet18_7CModel)
 
         video_bytes = generate_video(frames, temp_dir, frame_rate)
 
