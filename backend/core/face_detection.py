@@ -41,3 +41,10 @@ def detect_faces_video(img, model):
         'faces': faces,
         'predictions': predictions
     }
+
+
+def apply_bounding_box(frame, detected_faces):
+    for (x, y, w, h), prediction in zip(detected_faces['faces'], detected_faces['predictions']):
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 4)
+        cv2.putText(frame, prediction, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+    return frame

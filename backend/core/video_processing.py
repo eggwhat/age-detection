@@ -18,7 +18,7 @@ def generate_video(frames, temp_dir, frame_rate):
         return output_file.read()
 
 
-def process_video(file_path, detect_faces_video, model):
+def process_video(file_path, detect_faces_video, apply_bounding_box, model):
     frames = []
     video = cv2.VideoCapture(file_path)
     frame_rate = int(video.get(cv2.CAP_PROP_FPS))
@@ -31,9 +31,7 @@ def process_video(file_path, detect_faces_video, model):
             break
         if index % 5 == 0:
             res = detect_faces_video(frame, model)
-        for (x, y, w, h), prediction in zip(res['faces'], res['predictions']):
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 4)
-            cv2.putText(frame, prediction, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+        frame = apply_bounding_box(frame, res)
         frames.append(frame)
         index += 1
 

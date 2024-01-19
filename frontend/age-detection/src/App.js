@@ -35,7 +35,7 @@ function App() {
         if (!isPredictionReceived) {
             const interval = setInterval(() => {
                 captureAndSendFrame(webcamRef, ws);
-            }, 1000 / 5);
+            }, 1000 / 10);
 
             return () => clearInterval(interval);
         }
