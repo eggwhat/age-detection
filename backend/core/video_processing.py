@@ -23,17 +23,17 @@ def process_video(file_path, detect_faces_video, apply_bounding_box, model):
     video = cv2.VideoCapture(file_path)
     frame_rate = int(video.get(cv2.CAP_PROP_FPS))
 
-    index = 0
-    res = None
+    frame_counter = 0
+    detected_faces = None
     while True:
         ret, frame = video.read()
         if not ret:
             break
-        if index % 5 == 0:
-            res = detect_faces_video(frame, model)
-        frame = apply_bounding_box(frame, res)
+        if frame_counter % 5 == 0:
+            detected_faces = detect_faces_video(frame, model)
+        frame = apply_bounding_box(frame, detected_faces)
         frames.append(frame)
-        index += 1
+        frame_counter += 1
 
     video.release()
     return frames, frame_rate
