@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, WebSocket
 from fastapi.responses import StreamingResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from core.face_detection import detect_faces
+from core.face_detection import detect_faces, detect_faces_video, apply_bounding_box
 from core.video_processing import generate_video, process_video
 from PIL import Image
 from typing import List
@@ -53,13 +53,19 @@ async def get_models():
 @app.websocket("/detect-age/ws")
 async def detect_age_single(websocket: WebSocket):
     await websocket.accept()
+
+    frame_counter = 0
+    detected_faces = None
     while True:
         data = await websocket.receive_text()
         decoded_data = base64.b64decode(data)
         frame = cv2.imdecode(np.frombuffer(decoded_data, dtype=np.uint8), 1)
-        detect_faces(frame, Resnet18_7CModel)
+        if frame_counter % 3 == 0:
+            detected_faces = detect_faces_video(frame, Resnet18_7CModel)
+        frame = apply_bounding_box(frame, detected_faces)
         _, encoded_frame = cv2.imencode('.jpg', frame)
         image = base64.b64encode(encoded_frame.tobytes()).decode('utf-8')
+        frame_counter += 1
         await websocket.send_text(image)
 
 
@@ -88,7 +94,6 @@ def detect_age_multiple(files: List[UploadFile] = File(...)):
             for image in images:
                 zipf.writestr(image["name"], image["content"])
 
-
         zip_file.seek(0)
         return StreamingResponse(iter([zip_file.getvalue()]), media_type="application/x-zip-compressed",
                                  headers={"Content-Disposition": f"attachment; filename=images.zip"})
@@ -107,7 +112,7 @@ async def detect_age_video(file: UploadFile = File(...)):
         with open(file_path, "wb") as video_file:
             shutil.copyfileobj(file.file, video_file)
 
-        frames, frame_rate = process_video(file_path, detect_faces, Resnet18_7CModel)
+        frames, frame_rate = process_video(file_path, detect_faces_video, apply_bounding_box, Resnet18_7CModel)
 
         video_bytes = generate_video(frames, temp_dir, frame_rate)
 
