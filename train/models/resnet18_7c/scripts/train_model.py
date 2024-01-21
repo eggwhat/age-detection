@@ -7,6 +7,7 @@ from tempfile import TemporaryDirectory
 def train_model(model, criterion, optimizer, scheduler, dataloaders, device, dataset_sizes,
                  num_epochs=25):
     since = time.time()
+    first_time = 0
     train_accs = [] # training accuracy by epochs
     val_accs = [] # validation accuracy by epochs
 
@@ -19,6 +20,12 @@ def train_model(model, criterion, optimizer, scheduler, dataloaders, device, dat
 
         for epoch in range(num_epochs):
             print(f'Epoch {epoch}/{num_epochs - 1}')
+            if epoch == 1:
+              first_time = time.time() - since
+              print(f'Estimated epoch time: {first_time // 60:.0f}m {first_time % 60:.0f}s')
+            if epoch > 0:
+              time_left = first_time * (num_epochs - epoch)
+              print(f'Time left: ~{time_left // 60:.0f}m {time_left % 60:.0f}s.')
             print('-' * 10)
 
             # Each epoch has a training and validation phase

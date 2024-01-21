@@ -55,7 +55,7 @@ if __name__ == "__main__":
     path_to_metadatacsv = os.path.realpath('D:\WUT\IML/data/metadata-clean.csv')
     metadata_full = pd.read_csv(path_to_metadatacsv)
     metadata_full['target'] = metadata_full['age'].map(class_labels_reassign)
-    metadata = metadata_full.head(100)
+    metadata = metadata_full
     print(f"Amount of crop images: {len(metadata)}")
 
     dataloaders, dataset_sizes = split_dataset(metadata)
