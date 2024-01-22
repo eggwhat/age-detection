@@ -161,3 +161,4 @@ cython_debug/
 
 # Custom
 train/data/imdb_crop
+train/face_detection/data
