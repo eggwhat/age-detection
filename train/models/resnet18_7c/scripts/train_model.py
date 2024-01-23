@@ -69,9 +69,9 @@ def train_model(model, criterion, optimizer, scheduler, dataloaders, device, dat
 
                 print(f'{phase} Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f}')
                 if phase == 'train':
-                    train_accs.append(epoch_acc)
+                    train_accs.append(epoch_acc.to("cpu"))
                 else:
-                    val_accs.append(epoch_acc)
+                    val_accs.append(epoch_acc.to("cpu"))
 
                 # deep copy the model
                 if phase == 'val' and epoch_acc > best_acc:
