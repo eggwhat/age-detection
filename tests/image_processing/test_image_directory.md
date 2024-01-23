@@ -3,7 +3,7 @@ This file describes the manual test scenarios for uploading images from a direct
 ## Pre-requisites
 Run the app using manual provided in README.md file in root directory.
 ## Test scenarios
-To perform this test, upload the directory `tests/image_processing/test_images/manual_test` to the app using
+To perform tests 1-4, upload the directory `tests/image_processing/test_images/manual_test` to the app using
 `Upload Image Directory` button.
 The result should be a zip file `images.zip` containing processed images from given directory. These
 images should be in the directory with the same name as the original directory. 
@@ -29,3 +29,8 @@ images should be in the directory with the same name as the original directory.
     - When: The user uploads the directory with upside down image `upside_down.jpg`
     - Then: The app should return a zip file with processed image `upside_down.jpg` 
             with bounding box and age label ...
+### Test scenario 5
+    - Given: The app is running
+    - When: The user uploads the directory `tests/image_processing/test_images/manual_test_huge_image/` 
+            with image `huge_image.jpg`
+    - Then: The app should take some time to process the image and show a message that upload failed.
