@@ -4,8 +4,7 @@ import torchvision
 from torchvision import transforms
 
 class Resnet18_7C:
-  def __init__(self):
-    model_path = 'assets/models/resnet18_7c_aug_lr01_25e_step5.pt'
+  def __init__(self, model_path = 'assets/models/resnet18_7c_aug_lr01_25e_step5.pt'):
     self.classes = {
         0: '0 - 2',
         1: '3 - 9',
@@ -47,3 +46,16 @@ class Resnet18_7C:
         outputs = self.loaded_model(img)
         _, preds = torch.max(outputs, 1)
     return self.classes[preds[0].item()]
+  
+  def predict_class(self, img): # for confusion matrix creation
+    preds = None
+  
+    # img = Image.open(img_path).convert('RGB') # make sure img is an RGB image
+    img = self.data_transforms['val'](img)
+    img = img.unsqueeze(0)
+    img = img.to("cpu")
+  
+    with torch.no_grad():
+        outputs = self.loaded_model(img)
+        _, preds = torch.max(outputs, 1)
+    return preds[0].item()
