@@ -52,10 +52,10 @@ if __name__ == "__main__":
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(f"Device to be used: {device}")
   
-    path_to_metadatacsv = os.path.realpath('D:\Karina\data/metadata-clean-aug.csv')
+    path_to_metadatacsv = os.path.realpath('D:\WUT\IML\data/win-metadata-clean-aug.csv')
     metadata_full = pd.read_csv(path_to_metadatacsv)
     metadata_full['target'] = metadata_full['age'].map(class_labels_reassign)
-    metadata = metadata_full
+    metadata = metadata_full.head(100)
     print(f"Amount of crop images: {len(metadata)}")
 
     dataloaders, dataset_sizes = split_dataset(metadata)
@@ -65,7 +65,11 @@ if __name__ == "__main__":
         param.requires_grad = False # Parameters of newly constructed modules have requires_grad=True by default
 
     num_ftrs = model_conv.fc.in_features
-    model_conv.fc = nn.Linear(num_ftrs, len(CLASSES))
+    # model_conv.fc = nn.Linear(num_ftrs, len(CLASSES))
+    model_conv.fc = nn.Sequential(
+        nn.Dropout(0.5),
+        nn.Linear(num_ftrs, len(CLASSES))
+    )
 
     model_conv = model_conv.to(device)
 

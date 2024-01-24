@@ -13,7 +13,7 @@ import cv2
 import numpy as np
 import io
 import base64
-from core.models.resnet18_7с import Resnet18_7C
+from core.models.resnet18_7c import Resnet18_7C
 
 app = FastAPI()
 
