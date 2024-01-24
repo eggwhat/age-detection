@@ -52,7 +52,7 @@ if __name__ == "__main__":
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(f"Device to be used: {device}")
   
-    path_to_metadatacsv = os.path.realpath('D:\Karina\data/metadata-clean.csv')
+    path_to_metadatacsv = os.path.realpath('D:\Karina\data/metadata-clean-aug.csv')
     metadata_full = pd.read_csv(path_to_metadatacsv)
     metadata_full['target'] = metadata_full['age'].map(class_labels_reassign)
     metadata = metadata_full
@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
     # Decay LR by a factor of 0.1 every 5 epochs
     exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=5, gamma=0.1)
-    num_epochs = 15
+    num_epochs = 25
     model_conv, train_accs, val_accs = train_model(model_conv, criterion, optimizer_conv, exp_lr_scheduler, dataloaders,
                              device, dataset_sizes, num_epochs=num_epochs)
     output_dir = os.path.join('', 'output')
