@@ -5,6 +5,7 @@ import torch.optim as optim
 from torch.optim import lr_scheduler
 import torch.backends.cudnn as cudnn
 import torchvision
+from torchvision.models import ResNet50_Weights
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 import os
@@ -60,7 +61,7 @@ if __name__ == "__main__":
 
     dataloaders, dataset_sizes = split_dataset(metadata)
     print(dataset_sizes)
-    model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
+    model_conv = torchvision.models.resnet50(weights=ResNet50_Weights.DEFAULT)
     for param in model_conv.parameters():
         param.requires_grad = False # Parameters of newly constructed modules have requires_grad=True by default
 

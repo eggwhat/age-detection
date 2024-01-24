@@ -60,4 +60,3 @@ if __name__ == "__main__":
   plt.ylabel('True')
   plt.title(f'Confusion Matrix. Accuracy: {accuracy * 100:.2f}%')
   plt.savefig('./output/confusion_matrix.png')
-
