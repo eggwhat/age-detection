@@ -30,7 +30,11 @@ class Resnet18_7C:
     }
     self.loaded_model = torchvision.models.resnet18(weights='IMAGENET1K_V1')
     num_ftrs = self.loaded_model.fc.in_features
-    self.loaded_model.fc = nn.Linear(num_ftrs, len(self.classes))
+    # self.loaded_model.fc = nn.Linear(num_ftrs, len(self.classes))
+    self.loaded_model.fc = nn.Sequential(
+        nn.Dropout(0.5),
+        nn.Linear(num_ftrs, len(self.classes))
+    )
     self.loaded_model.load_state_dict(torch.load(model_path, map_location='cpu'))
     self.loaded_model.eval()
 

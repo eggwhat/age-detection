@@ -12,7 +12,7 @@ sys.path.append('../../../../backend')
 from core.models.resnet18_7c import Resnet18_7C
 
 def read_data(n = 100):
-  path_to_metadatacsv = os.path.realpath('D:\WUT\IML\data/win-metadata-clean-aug.csv')
+  path_to_metadatacsv = os.path.realpath('D:\Karina\data/metadata-clean-aug.csv')
   df = pd.read_csv(path_to_metadatacsv)
   df['target'] = df['age'].map(class_labels_reassign)
   print(f"0: {len(df[df['target'] == 0])}")
@@ -33,7 +33,7 @@ def read_data(n = 100):
   
 
 if __name__ == "__main__":
-  Resnet18_7CModel = Resnet18_7C(model_path='../scripts/output-aug-lr01-25e-step5/model.pt')  # init trained model
+  Resnet18_7CModel = Resnet18_7C(model_path='../scripts/output-aug-dropout/model.pt')  # init trained model
   df = read_data(n = 100)
   print(len(df))
   y_true = df['target']

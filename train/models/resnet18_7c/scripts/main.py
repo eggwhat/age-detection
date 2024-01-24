@@ -49,14 +49,29 @@ def plot_train_val_accuracy(num_epochs, train_accs, val_accs):
     plt.title(f'Train vs Val accuracy. Best: {max(val_accs)*100:.2f}%')
     plt.savefig('./output/train_val_accuracy.png')
 
+# python -u main.py > train.log
 if __name__ == "__main__":
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(f"Device to be used: {device}")
   
-    path_to_metadatacsv = os.path.realpath('D:\WUT\IML\data/win-metadata-clean-aug.csv')
-    metadata_full = pd.read_csv(path_to_metadatacsv)
-    metadata_full['target'] = metadata_full['age'].map(class_labels_reassign)
-    metadata = metadata_full.head(100)
+    path_to_metadatacsv = os.path.realpath('D:\Karina\data/metadata-clean-aug.csv')
+    df = pd.read_csv(path_to_metadatacsv)
+    df['target'] = df['age'].map(class_labels_reassign)
+    print(f"0: {len(df[df['target'] == 0])}")
+    print(f"1: {len(df[df['target'] == 1])}")
+    print(f"2: {len(df[df['target'] == 2])}")
+    print(f"3: {len(df[df['target'] == 3])}")
+    print(f"4: {len(df[df['target'] == 4])}")
+    print(f"5: {len(df[df['target'] == 5])}")
+    print(f"6: {len(df[df['target'] == 6])}")
+    df0 = df[df['target'] == 0]
+    df1 = df[df['target'] == 1]
+    df2 = df[df['target'] == 2]
+    df3 = df[df['target'] == 3].head(30000)
+    df4 = df[df['target'] == 4].head(30000)
+    df5 = df[df['target'] == 5].head(30000)
+    df6 = df[df['target'] == 6].head(30000)
+    metadata = pd.concat([df0, df1, df2, df3, df4, df5, df6])
     print(f"Amount of crop images: {len(metadata)}")
 
     dataloaders, dataset_sizes = split_dataset(metadata)
@@ -76,7 +91,7 @@ if __name__ == "__main__":
 
     criterion = nn.CrossEntropyLoss()
 
-    optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.001, momentum=0.9)
+    optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.01, momentum=0.9)
 
     # Decay LR by a factor of 0.1 every 5 epochs
     exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=5, gamma=0.1)
