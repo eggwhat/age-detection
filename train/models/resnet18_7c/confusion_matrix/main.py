@@ -33,7 +33,7 @@ def read_data(n = 100):
   
 
 if __name__ == "__main__":
-  Resnet18_7CModel = Resnet18_7C(model_path='../scripts/output-aug-dropout/model.pt')  # init trained model
+  Resnet18_7CModel = Resnet18_7C(model_path='../scripts/output-aug-dropout-resnet50-lr01/model.pt')  # init trained model
   df = read_data(n = 100)
   print(len(df))
   y_true = df['target']

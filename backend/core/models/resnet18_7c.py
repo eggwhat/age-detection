@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torchvision
 from torchvision import transforms
+from torchvision.models import ResNet50_Weights
 
 class Resnet18_7C:
   def __init__(self, model_path = 'assets/models/resnet18_7c_aug_lr01_25e_step5.pt'):
@@ -28,7 +29,7 @@ class Resnet18_7C:
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
     }
-    self.loaded_model = torchvision.models.resnet18(weights='IMAGENET1K_V1')
+    self.loaded_model = torchvision.models.resnet50(weights=ResNet50_Weights.DEFAULT)
     num_ftrs = self.loaded_model.fc.in_features
     # self.loaded_model.fc = nn.Linear(num_ftrs, len(self.classes))
     self.loaded_model.fc = nn.Sequential(
