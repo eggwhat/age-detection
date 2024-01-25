@@ -21,7 +21,7 @@ Welcome to the Age Detection App! Our advanced AI technology estimates the age o
 - Operating System: Windows 10, MacOS 10.14, or any modern Linux distribution
 - Browser: Latest versions of Chrome, Firefox, or Safari
 - Webcam: Required if using live feed features
-- Python 3.8 or higher
+- Python 3.9 or higher
 - Node.js 12 or higher
 
 ### Installation Guide
@@ -31,7 +31,7 @@ To ensure proper installation of the Age Detection App, follow these steps:
 
 1. **Clone the Repository**: https://github.com/grioool/human-age-detection
 2. **Set Up Python Environment**:
-   - Ensure Python 3.8+ is installed.
+   - Ensure Python 3.9+ is installed.
    - Set up a virtual environment: `python -m venv venv`
    - Activate the virtual environment: `source venv/bin/activate` (Linux/Mac) or `venv\Scripts\activate` (Windows)
    - Install the required Python libraries: `pip install -r requirements.txt`
