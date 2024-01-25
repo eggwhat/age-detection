@@ -8,12 +8,7 @@ export const captureAndSendFrame = (webcamRef, ws) => {
     }
 };
 
-export const handleFileSelect = (event) => {
-    const files = [...event.target.files];
-    handleImageUpload(files);
-};
-
-export const handleImageUpload = async (files) => {
+export const handleImageUpload = async (files, setIsLoading, setIsWebcamActive) => {
 
     if (files.length === 0) {
         alert('Please select a directory with one or more files.');
@@ -24,6 +19,9 @@ export const handleImageUpload = async (files) => {
         alert('Please select a directory with fewer than 40 files.');
         return;
     }
+
+    setIsLoading(true);
+    setIsWebcamActive(false);
 
     const formData = new FormData();
     files.forEach(file => {
@@ -54,6 +52,9 @@ export const handleImageUpload = async (files) => {
     } catch (error) {
         console.error('Error:', error);
         alert('Upload failed. Please try again.');
+    } finally {
+        setIsLoading(false);
+        setIsWebcamActive(true);
     }
 };
 
@@ -95,6 +96,6 @@ export const handleVideoUpload = async (file, setIsLoading, setIsWebcamActive) =
         alert('Upload failed. Please try again.');
     } finally {
         setIsLoading(false);
-        setIsWebcamActive(true); // Reactivate webcam when video upload ends
+        setIsWebcamActive(true);
     }
 };

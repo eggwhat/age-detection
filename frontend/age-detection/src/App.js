@@ -3,7 +3,7 @@ import Webcam from 'react-webcam';
 import Logo from './assets/logo.svg';
 import './styles/App.css';
 import {Loader} from "./components/Loader/Loader";
-import {captureAndSendFrame, handleFileSelect, handleVideoUpload} from "./service/MediaUploader";
+import {captureAndSendFrame, handleImageUpload, handleVideoUpload} from "./service/MediaUploader";
 import {MediaInput} from "./components/MediaInput/MediaInput";
 
 function App() {
@@ -52,7 +52,8 @@ function App() {
             <main>
                 <div className="button-container">
                     <MediaInput directory={true} text={"Upload Image Directory"} multiple={true} accept={"image"}
-                                onChange={handleFileSelect} id={"imageUploadDir"}/>
+                                onChange={(e) => handleImageUpload([...e.target.files], setIsLoading, setIsWebcamActive)}
+                                id={"imageUploadDir"}/>
                     <MediaInput directory={false} text={"Upload Video"} multiple={false} accept={"video"}
                                 onChange={(e) => handleVideoUpload(e.target.files[0], setIsLoading, setIsWebcamActive)}
                                 id={"videoUpload"}/>
