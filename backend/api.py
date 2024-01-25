@@ -71,11 +71,11 @@ async def detect_age_single(websocket: WebSocket):
 
 @app.post("/detect-age/multiple")
 def detect_age_multiple(files: List[UploadFile] = File(...)):
-    if not all(file.content_type.startswith("image/") for file in files):
-        raise HTTPException(status_code=400, detail="Invalid file format. Please upload an image.")
     try:
         images = []
         for file in files:
+            if not file.content_type.startswith("image/"):
+                continue
             content = file.file.read()
             image_array = cv2.imdecode(np.frombuffer(content, np.uint8), -1)
 
@@ -88,6 +88,9 @@ def detect_age_multiple(files: List[UploadFile] = File(...)):
             image_pil.save(output_image, format="PNG")
             output_image.seek(0)
             images.append({"name": file.filename, "content": output_image.getvalue()})
+
+        if not images:
+            raise HTTPException(status_code=400, detail="No valid image files found.")
 
         zip_file = io.BytesIO()
         with zipfile.ZipFile(zip_file, 'w') as zipf:
