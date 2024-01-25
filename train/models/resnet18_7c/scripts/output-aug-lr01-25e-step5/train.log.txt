@@ -1,0 +1,156 @@
+Device to be used: cuda:0
+Amount of crop images: 312430
+{'train': 218701, 'val': 93729}
+Epoch 0/24
+----------
+train Loss: 7.5855 Acc: 0.3148
+val Loss: 6.1899 Acc: 0.3936
+
+Epoch 1/24
+Estimated epoch time: 49m 41s
+Time left: ~1192m 19s.
+----------
+train Loss: 7.6836 Acc: 0.3170
+val Loss: 8.5635 Acc: 0.2873
+
+Epoch 2/24
+Time left: ~1142m 38s.
+----------
+train Loss: 7.6921 Acc: 0.3144
+val Loss: 10.8337 Acc: 0.4137
+
+Epoch 3/24
+Time left: ~1092m 57s.
+----------
+train Loss: 7.7259 Acc: 0.3152
+val Loss: 17.4671 Acc: 0.3946
+
+Epoch 4/24
+Time left: ~1043m 16s.
+----------
+train Loss: 7.6974 Acc: 0.3156
+val Loss: 6.9592 Acc: 0.3333
+
+Epoch 5/24
+Time left: ~993m 35s.
+----------
+train Loss: 1.9240 Acc: 0.3617
+val Loss: 1.7284 Acc: 0.3712
+
+Epoch 6/24
+Time left: ~943m 55s.
+----------
+train Loss: 1.6917 Acc: 0.3690
+val Loss: 2.0365 Acc: 0.4360
+
+Epoch 7/24
+Time left: ~894m 14s.
+----------
+train Loss: 1.6865 Acc: 0.3671
+val Loss: 1.6166 Acc: 0.4392
+
+Epoch 8/24
+Time left: ~844m 33s.
+----------
+train Loss: 1.6850 Acc: 0.3684
+val Loss: 1.4859 Acc: 0.4408
+
+Epoch 9/24
+Time left: ~794m 52s.
+----------
+train Loss: 1.6813 Acc: 0.3697
+val Loss: 1.6460 Acc: 0.4182
+
+Epoch 10/24
+Time left: ~745m 12s.
+----------
+train Loss: 1.4048 Acc: 0.4270
+val Loss: 1.3726 Acc: 0.4167
+
+Epoch 11/24
+Time left: ~695m 31s.
+----------
+train Loss: 1.3945 Acc: 0.4327
+val Loss: 1.3224 Acc: 0.4376
+
+Epoch 12/24
+Time left: ~645m 50s.
+----------
+train Loss: 1.3959 Acc: 0.4323
+val Loss: 1.3781 Acc: 0.4408
+
+Epoch 13/24
+Time left: ~596m 9s.
+----------
+train Loss: 1.3944 Acc: 0.4318
+val Loss: 1.3094 Acc: 0.4626
+
+Epoch 14/24
+Time left: ~546m 29s.
+----------
+train Loss: 1.3949 Acc: 0.4312
+val Loss: 1.3029 Acc: 0.4725
+
+Epoch 15/24
+Time left: ~496m 48s.
+----------
+train Loss: 1.3732 Acc: 0.4428
+val Loss: 1.2795 Acc: 0.4830
+
+Epoch 16/24
+Time left: ~447m 7s.
+----------
+train Loss: 1.3709 Acc: 0.4448
+val Loss: 1.2957 Acc: 0.4742
+
+Epoch 17/24
+Time left: ~397m 26s.
+----------
+train Loss: 1.3723 Acc: 0.4459
+val Loss: 1.2802 Acc: 0.4801
+
+Epoch 18/24
+Time left: ~347m 45s.
+----------
+train Loss: 1.3708 Acc: 0.4459
+val Loss: 1.2857 Acc: 0.4838
+
+Epoch 19/24
+Time left: ~298m 5s.
+----------
+train Loss: 1.3701 Acc: 0.4470
+val Loss: 1.2802 Acc: 0.4786
+
+Epoch 20/24
+Time left: ~248m 24s.
+----------
+train Loss: 1.3689 Acc: 0.4467
+val Loss: 1.2765 Acc: 0.4821
+
+Epoch 21/24
+Time left: ~198m 43s.
+----------
+train Loss: 1.3704 Acc: 0.4473
+val Loss: 1.2757 Acc: 0.4829
+
+Epoch 22/24
+Time left: ~149m 2s.
+----------
+train Loss: 1.3684 Acc: 0.4475
+val Loss: 1.2806 Acc: 0.4814
+
+Epoch 23/24
+Time left: ~99m 22s.
+----------
+train Loss: 1.3690 Acc: 0.4474
+val Loss: 1.3122 Acc: 0.4752
+
+Epoch 24/24
+Time left: ~49m 41s.
+----------
+train Loss: 1.3679 Acc: 0.4464
+val Loss: 1.2721 Acc: 0.4857
+
+Training complete in 543m 15s
+Best val Acc: 0.485687
+Output dir is created!

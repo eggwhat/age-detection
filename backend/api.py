@@ -13,7 +13,7 @@ import cv2
 import numpy as np
 import io
 import base64
-from core.models.resnet18_7с import Resnet18_7C
+from core.models.resnet_7c import Resnet_7C
 
 app = FastAPI()
 
@@ -27,7 +27,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-Resnet18_7CModel = Resnet18_7C()  # init trained model
+Resnet_7CModel = Resnet_7C()  # init trained model
 
 
 @app.get("/")
@@ -61,7 +61,7 @@ async def detect_age_single(websocket: WebSocket):
         decoded_data = base64.b64decode(data)
         frame = cv2.imdecode(np.frombuffer(decoded_data, dtype=np.uint8), 1)
         if frame_counter % 3 == 0:
-            detected_faces = detect_faces_video(frame, Resnet18_7CModel)
+            detected_faces = detect_faces_video(frame, Resnet_7CModel)
         frame = apply_bounding_box(frame, detected_faces)
         _, encoded_frame = cv2.imencode('.jpg', frame)
         image = base64.b64encode(encoded_frame.tobytes()).decode('utf-8')
@@ -71,15 +71,15 @@ async def detect_age_single(websocket: WebSocket):
 
 @app.post("/detect-age/multiple")
 def detect_age_multiple(files: List[UploadFile] = File(...)):
-    if not all(file.content_type.startswith("image/") for file in files):
-        raise HTTPException(status_code=400, detail="Invalid file format. Please upload an image.")
     try:
         images = []
         for file in files:
+            if not file.content_type.startswith("image/"):
+                continue
             content = file.file.read()
             image_array = cv2.imdecode(np.frombuffer(content, np.uint8), -1)
 
-            detected_faces = detect_faces(image_array, Resnet18_7CModel)
+            detected_faces = detect_faces(image_array, Resnet_7CModel)
             # if not detected_faces['faces'].any():
             #     raise HTTPException(status_code=400, detail="No faces detected in the image.")
 
@@ -88,6 +88,9 @@ def detect_age_multiple(files: List[UploadFile] = File(...)):
             image_pil.save(output_image, format="PNG")
             output_image.seek(0)
             images.append({"name": file.filename, "content": output_image.getvalue()})
+
+        if not images:
+            raise HTTPException(status_code=400, detail="No valid image files found.")
 
         zip_file = io.BytesIO()
         with zipfile.ZipFile(zip_file, 'w') as zipf:
@@ -112,7 +115,7 @@ async def detect_age_video(file: UploadFile = File(...)):
         with open(file_path, "wb") as video_file:
             shutil.copyfileobj(file.file, video_file)
 
-        frames, frame_rate = process_video(file_path, detect_faces_video, apply_bounding_box, Resnet18_7CModel)
+        frames, frame_rate = process_video(file_path, detect_faces_video, apply_bounding_box, Resnet_7CModel)
 
         video_bytes = generate_video(frames, temp_dir, frame_rate)
 

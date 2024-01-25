@@ -30,7 +30,7 @@ def detect_faces_video(img, model):
         cv2.data.haarcascades + "haarcascade_frontalface_default.xml"  # pretrained model
     )
     faces = face_classifier.detectMultiScale(
-        gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(40, 40)
+        gray_image, scaleFactor=1.1, minNeighbors=6, minSize=(40, 40)
     )
 
     predictions = []
