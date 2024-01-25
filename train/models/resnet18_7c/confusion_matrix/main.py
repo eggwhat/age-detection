@@ -9,7 +9,7 @@ from classes import CLASSES, class_labels_reassign
 
 import sys
 sys.path.append('../../../../backend')
-from core.models.resnet18_7c import Resnet18_7C
+from core.models.resnet_7c import Resnet_7C
 
 def read_data(n = 100):
   path_to_metadatacsv = os.path.realpath('D:\Karina\data/metadata-clean-aug.csv')
@@ -33,14 +33,14 @@ def read_data(n = 100):
   
 
 if __name__ == "__main__":
-  Resnet18_7CModel = Resnet18_7C(model_path='../scripts/output-aug-dropout-resnet50-lr01/model.pt')  # init trained model
+  Resnet_7CModel = Resnet_7C(model_path='../scripts/output-aug-dropout-resnet50-lr01/model.pt')  # init trained model
   df = read_data(n = 100)
   print(len(df))
   y_true = df['target']
   y_pred = []
   for index, row in df.iterrows():
     img = Image.open(row.path).convert('RGB')
-    y_pred.append(Resnet18_7CModel.predict_class(img))
+    y_pred.append(Resnet_7CModel.predict_class(img))
 
   print("Prediction completed.")
   print(f"y_true: {len(y_true)}. y_pred: {len(y_pred)}")
