@@ -9,7 +9,7 @@ Data Structure
 
 The data for model training should be placed in the `/train/data` directory, also referred to as `DATA_DIR` in `consts.py`. The structure of the data directory is as follows:
 
-.. code-block:: none
+```
 
     ├── data
     │   ├── imdb_crop
@@ -20,6 +20,7 @@ The data for model training should be placed in the `/train/data` directory, als
     │   │   ├── **
     │   │   │  ├── **.jpg
     │   │   ├── wiki.mat
+```
 
 Source:
 
@@ -38,8 +39,7 @@ Most important first steps - preparation for EDA
 1. Imports
 ----------
 
-.. code-block:: python
-
+```
     import os
     import csv
     import pandas as pd
@@ -51,6 +51,7 @@ Most important first steps - preparation for EDA
     from scipy import stats
     from PIL import Image
     from tabulate import tabulate
+```
 
 This cell imports various libraries necessary for data analysis and visualization. Key libraries include:
 
@@ -63,17 +64,18 @@ This cell imports various libraries necessary for data analysis and visualizatio
 2. Setting up Data Path
 ------------------------
 
-.. code-block:: python
+```
 
     path_to_metadatacsv = os.path.realpath('../data/metadata.csv')
     print(path_to_metadatacsv)
+```
 
 This cell calculates the real path of the 'metadata.csv' file, which is presumably the main dataset for analysis. The resolved path is printed for verification.
 
 3. Reading CSV File
 -------------------
 
-.. code-block:: python
+```
 
     rows = [] 
     with open(path_to_metadatacsv, 'r') as file:
@@ -85,6 +87,7 @@ This cell calculates the real path of the 'metadata.csv' file, which is presumab
     print("\nThe first few sample rows:\n")
     for row in rows[:10]:
         print(row)
+```
 
 In this cell, the notebook:
 
@@ -95,10 +98,11 @@ In this cell, the notebook:
 4. Loading CSV File into DataFrame
 -----------------------------------
 
-.. code-block:: python
 
+```
     df_metadata = pd.read_csv(path_to_metadatacsv)
     df_metadata.head()
+```
 
 This cell loads the CSV file (referenced by `path_to_metadatacsv`) into a Pandas DataFrame named `df_metadata`. It then displays the first few rows of the DataFrame using the `head()` method. This is a common practice in data analysis to get a quick glimpse of the dataset structure and contents.
 
