@@ -38,8 +38,7 @@ Most important first steps - preparation for EDA
 1. Imports
 ----------
 
-.. code-block:: python
-
+```
     import os
     import csv
     import pandas as pd
@@ -51,6 +50,7 @@ Most important first steps - preparation for EDA
     from scipy import stats
     from PIL import Image
     from tabulate import tabulate
+```
 
 This cell imports various libraries necessary for data analysis and visualization. Key libraries include:
 
