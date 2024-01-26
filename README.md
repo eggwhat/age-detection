@@ -34,14 +34,18 @@ To ensure proper installation of the Age Detection App, follow these steps:
    - Ensure Python 3.9+ is installed.
    - Set up a virtual environment: `python -m venv venv`
    - Activate the virtual environment: `source venv/bin/activate` (Linux/Mac) or `venv\Scripts\activate` (Windows)
+   - Navigate in terminal to /backend
    - Install the required Python libraries: `pip install -r requirements.txt`
+   - To run in the /backend folder run: uvicorn api:app
 3. **Set Up React Environment**:
    - Ensure Node.js 12+ is installed.
+   - Navigate in terminal to /frontend/age-detection/
    - Install dependencies: `npm install`
-   - App will be hosted on 
+   - To run in the /frontend/age-detection/ run: npm start
+   - App will be hosted on http://localhost:3000
 
 ### Getting Started
-1. **Launch the App**: Open the installed application or navigate to the web address: Local: http://localhost:3000 On Your Network:  http://192.168.1.91:3000.
+1. **Launch the App**: Open the installed application or navigate to the web address: Local: http://localhost:3000 On Your Network:  http://<local-ip>:3000.
 2. **Grant Permissions**: Allow the application to access your webcam if prompted.
 
 ### Uploading an Image
