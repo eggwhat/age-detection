@@ -60,7 +60,7 @@ async def detect_age_single(websocket: WebSocket):
         data = await websocket.receive_text()
         decoded_data = base64.b64decode(data)
         frame = cv2.imdecode(np.frombuffer(decoded_data, dtype=np.uint8), 1)
-        if frame_counter % 3 == 0:
+        if frame_counter % 6 == 0:
             detected_faces = detect_faces_video(frame, Resnet_7CModel)
         frame = apply_bounding_box(frame, detected_faces)
         _, encoded_frame = cv2.imencode('.jpg', frame)
